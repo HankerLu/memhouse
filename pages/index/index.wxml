@@ -5,9 +5,14 @@
       <text class="user-motto">{{motto}}</text>
     </view>
     <view class="photo-upload">
-      <button bindtap="chooseImage">选择照片</button>
+      <button bindtap="chooseImage" loading="{{analyzing}}">
+        {{analyzing ? '分析中...' : '选择照片'}}
+      </button>
       <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
+      </view>
+      <view class="keywords" wx:if="{{keywords.length > 0}}">
+        <text class="keyword" wx:for="{{keywords}}" wx:key="index">{{item}}</text>
       </view>
     </view>
     <button class="ai-poetry-btn" bindtap="goToAIPoetry">AI写诗</button>

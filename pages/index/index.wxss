@@ -47,3 +47,19 @@ button {
   background-color: #07c160;
   color: white;
 }
+
+.keywords {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.keyword {
+  background: #e6f3ff;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #0066cc;
+}
