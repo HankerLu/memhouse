@@ -1,7 +1,10 @@
+import { generatePoemWithAI } from '../../utils/ai-service';
+
 Page({
   data: {
     poem: '',
-    isLoading: false
+    isLoading: false,
+    error: ''
   },
 
   onLoad() {
@@ -9,17 +12,24 @@ Page({
   },
 
   // 生成诗歌的方法
-  generatePoem() {
+  async generatePoem() {
     this.setData({
-      isLoading: true
+      isLoading: true,
+      error: ''
     });
     
-    // 这里后续可以接入真实的AI接口
-    setTimeout(() => {
+    try {
+      const poem = await generatePoemWithAI();
       this.setData({
-        poem: '春风又绿江南岸，\n明月何时照我还。',
+        poem: poem,
         isLoading: false
       });
-    }, 1000);
+    } catch (error) {
+      this.setData({
+        error: '生成诗歌失败，请稍后重试',
+        isLoading: false
+      });
+      console.error('AI写诗错误：', error);
+    }
   }
 }) 

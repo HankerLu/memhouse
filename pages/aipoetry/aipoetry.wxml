@@ -8,4 +8,8 @@
   <view class="poem-container" wx:if="{{poem}}">
     <text class="poem-text">{{poem}}</text>
   </view>
+
+  <view class="error-message" wx:if="{{error}}">
+    {{error}}
+  </view>
 </view> 
