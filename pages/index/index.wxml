@@ -25,7 +25,7 @@
     </view>
     <view class="photo-upload">
       <button bindtap="chooseImage">选择照片</button>
-      <view class="image-preview" wx:if="{{tempImagePath}}">
+      <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
       </view>
     </view>

@@ -63,5 +63,10 @@ Page({
         app.globalData.selectedImage = tempFilePath
       }
     })
+  },
+  previewImage: function() {
+    wx.navigateTo({
+      url: '/pages/preview/preview'
+    })
   }
 })

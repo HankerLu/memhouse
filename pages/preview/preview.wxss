@@ -1,0 +1,30 @@
+.preview-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+}
+
+.close-btn {
+  position: fixed;
+  top: 40rpx;
+  right: 40rpx;
+  color: white;
+  font-size: 60rpx;
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+} 
