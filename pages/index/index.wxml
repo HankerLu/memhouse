@@ -8,9 +8,12 @@
       <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
       </view>
-      <button bindtap="chooseImage" loading="{{analyzing}}">
-        {{analyzing ? '分析中...' : '选择照片'}}
-      </button>
+      <view class="button-container">
+        <button class="action-btn" bindtap="chooseImage" loading="{{analyzing}}">
+          {{analyzing ? '分析中...' : '选择照片'}}
+        </button>
+        <button class="action-btn" bindtap="goToAIPoetry">AI写诗</button>
+      </view>
       <view class="keywords" wx:if="{{keywords.length > 0}}">
         <text class="keyword {{item.selected ? 'selected' : ''}}" 
               wx:for="{{keywords}}" 
@@ -21,6 +24,5 @@
         </text>
       </view>
     </view>
-    <button class="ai-poetry-btn" bindtap="goToAIPoetry">AI写诗</button>
   </view>
 </scroll-view>

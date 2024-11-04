@@ -36,14 +36,18 @@ page {
   height: 300px;
 }
 
-button {
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
   margin-top: 10px;
-  background-color: #07c160;
-  color: white;
 }
 
-.ai-poetry-btn {
-  margin: 10px;
+.action-btn {
+  flex: 1;
+  max-width: 45%;
+  margin: 0;
   background-color: #07c160;
   color: white;
 }
