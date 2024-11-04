@@ -29,5 +29,6 @@
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
       </view>
     </view>
+    <button class="ai-poetry-btn" bindtap="goToAIPoetry">AI写诗</button>
   </view>
 </scroll-view>

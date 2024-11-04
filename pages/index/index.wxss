@@ -87,3 +87,9 @@ button {
   background-color: #07c160;
   color: white;
 }
+
+.ai-poetry-btn {
+  margin: 20px;
+  background-color: #07c160;
+  color: white;
+}

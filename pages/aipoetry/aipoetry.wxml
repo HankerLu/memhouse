@@ -1,0 +1,11 @@
+<view class="container">
+  <view class="header">AI写诗</view>
+  
+  <button class="generate-btn" bindtap="generatePoem" loading="{{isLoading}}">
+    生成诗歌
+  </button>
+
+  <view class="poem-container" wx:if="{{poem}}">
+    <text class="poem-text">{{poem}}</text>
+  </view>
+</view> 

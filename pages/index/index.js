@@ -68,5 +68,10 @@ Page({
     wx.navigateTo({
       url: '/pages/preview/preview'
     })
+  },
+  goToAIPoetry() {
+    wx.navigateTo({
+      url: '/pages/aipoetry/aipoetry'
+    })
   }
 })
