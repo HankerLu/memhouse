@@ -4,20 +4,22 @@ Page({
   data: {
     poem: '',
     isLoading: false,
-    error: ''
+    error: '',
+    selectedKeywords: []
   },
 
   onLoad() {
-    // 获取全局数据中的图片关键词
+    // 获取全局数据中的选中关键词
     const app = getApp();
-    this.imageKeywords = app.globalData.imageKeywords || [];
+    const selectedKeywords = app.globalData.imageKeywords || [];
+    this.setData({ selectedKeywords });
   },
 
-  // 生成诗歌的方法
   async generatePoem() {
-    if (!this.imageKeywords || this.imageKeywords.length === 0) {
+    const { selectedKeywords } = this.data;
+    if (!selectedKeywords || selectedKeywords.length === 0) {
       wx.showToast({
-        title: '请先选择并分析图片',
+        title: '请先选择关键词',
         icon: 'none'
       });
       return;
@@ -29,9 +31,9 @@ Page({
     });
     
     try {
-      const result = await createPoem(this.imageKeywords);
+      const result = await createPoem(selectedKeywords);
       this.setData({
-        poem: result.poem || result, // 根据实际API返回格式调整
+        poem: result.poem || result,
         isLoading: false
       });
     } catch (error) {

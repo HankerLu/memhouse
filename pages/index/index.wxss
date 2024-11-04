@@ -62,4 +62,10 @@ button {
   border-radius: 15px;
   font-size: 14px;
   color: #0066cc;
+  transition: all 0.3s;
+}
+
+.keyword.selected {
+  background: #0066cc;
+  color: white;
 }
