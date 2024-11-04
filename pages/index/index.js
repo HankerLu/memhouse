@@ -5,7 +5,6 @@ const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia0
 
 Page({
   data: {
-    motto: 'Welcome',
     tempImagePath: '',
     analyzing: false,
     keywords: []
