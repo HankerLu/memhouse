@@ -1,12 +1,18 @@
 <!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
-  <view class="container" bindtap="toggleAnimation">
+  <view class="container">
     <view class="main-image-container">
-      <!-- 使用webp动画图片 -->
-      <view class="animation-wrapper">
-        <image class="animation-image" 
-               src="{{isAnimating ? '../../images/animation.webp' : '../../images/memhouse.jpg'}}" 
-               mode="aspectFill" />
+      <!-- 电视机外壳 -->
+      <view class="tv-frame">
+        <image class="tv-background" src="../../images/memhouse.jpg" mode="aspectFill" />
+        <!-- 电视屏幕区域 -->
+        <view class="tv-screen">
+          <image 
+            class="screen-content" 
+            src="{{tempImagePath || '../../images/default-screen.jpg'}}" 
+            mode="aspectFit"
+          />
+        </view>
       </view>
       
       <!-- 两个悬浮的对话圈圈 -->
@@ -30,12 +36,9 @@
       </view>
     </view>
 
-    <!-- 预览和关键词部分 -->
-    <view class="photo-upload" wx:if="{{tempImagePath || keywords.length > 0}}">
-      <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
-        <image src="{{tempImagePath}}" mode="aspectFit"></image>
-      </view>
-      <view class="keywords" wx:if="{{keywords.length > 0}}">
+    <!-- 关键词部分 -->
+    <view class="keywords-section" wx:if="{{keywords.length > 0}}">
+      <view class="keywords">
         <text class="keyword {{item.selected ? 'selected' : ''}}" 
               wx:for="{{keywords}}" 
               wx:key="index"
