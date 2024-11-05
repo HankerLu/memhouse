@@ -8,7 +8,6 @@ Page({
     tempImagePath: '',
     analyzing: false,
     keywords: [],
-    currentFrame: 'memhouse',
     isAnimating: false,
     animationData: {},
     frames: [], // 存储所有帧的路径
@@ -21,12 +20,6 @@ Page({
       return `../../images/frame_${String(i + 1).padStart(4, '0')}.png`;
     });
     this.setData({ frames });
-
-    // 创建动画实例
-    this.animation = wx.createAnimation({
-      duration: 50, // 每一帧的持续时间
-      timingFunction: 'step-start', // 使用阶梯式的动画效果
-    });
   },
 
   chooseImage: async function() {
@@ -112,51 +105,12 @@ Page({
   },
 
   toggleAnimation: function() {
-    if (this.data.isAnimating) {
-      // 停止动画
-      if (this.animationTimer) {
-        clearTimeout(this.animationTimer);
-      }
-      this.setData({
-        isAnimating: false,
-        currentFrame: 'memhouse'
-      });
-    } else {
-      // 开始动画
-      this.setData({
-        isAnimating: true
-      });
-      this.playFrameAnimation(1);
-    }
-  },
-
-  playFrameAnimation: function(frameIndex) {
-    if (!this.data.isAnimating || frameIndex > 60) {
-      // 动画结束，返回到初始状态
-      this.setData({
-        isAnimating: false,
-        currentFrame: 'memhouse'
-      });
-      return;
-    }
-
-    // 设置当前帧的图片
-    const currentFrame = String(frameIndex).padStart(4, '0');
     this.setData({
-      currentFrame: currentFrame
+      isAnimating: !this.data.isAnimating
     });
-
-    // 设置下一帧的定时器
-    this.animationTimer = setTimeout(() => {
-      this.playFrameAnimation(frameIndex + 1);
-    }, 15); // 3000ms/60帧 ≈ 50ms
   },
 
   onUnload: function() {
-    // 页面卸载时清理定时器
-    if (this.animationTimer) {
-      clearTimeout(this.animationTimer);
-    }
     this.setData({
       isAnimating: false
     });

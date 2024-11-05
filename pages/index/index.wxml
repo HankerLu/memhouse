@@ -2,10 +2,10 @@
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container" bindtap="toggleAnimation">
     <view class="main-image-container">
-      <!-- 使用动画组件包装图片 -->
+      <!-- 使用webp动画图片 -->
       <view class="animation-wrapper">
         <image class="animation-image" 
-               src="{{isAnimating ? '../../images/frame_' + currentFrame + '.png' : '../../images/memhouse.jpg'}}" 
+               src="{{isAnimating ? '../../images/animation.webp' : '../../images/memhouse.jpg'}}" 
                mode="aspectFill" />
       </view>
       
