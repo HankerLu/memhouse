@@ -77,3 +77,97 @@ page {
   height: 100%;
   object-fit: contain;
 }
+
+.main-image-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.animation-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.floating-button {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+}
+
+.circle-button {
+  width: 120rpx;
+  height: 120rpx;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.circle-button text {
+  font-size: 24rpx;
+  color: #07c160;
+  text-align: center;
+  padding: 10rpx;
+}
+
+.analyzing .circle-button {
+  animation: spin 1s infinite linear;
+}
+
+.photo-upload {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20rpx;
+  border-top-left-radius: 30rpx;
+  border-top-right-radius: 30rpx;
+}
+
+.ai-poetry-button {
+  position: absolute;
+  bottom: 40rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.action-btn {
+  background-color: #07c160;
+  color: white;
+  border-radius: 30rpx;
+  font-size: 28rpx;
+  padding: 15rpx 40rpx;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

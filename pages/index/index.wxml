@@ -1,16 +1,26 @@
 <!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container" bindtap="toggleAnimation">
-    <image class="animation-image" src="../../images/{{currentFrame === 'memhouse' ? 'memhouse.jpg' : 'frame_' + currentFrame + '.png'}}" />
-    <view class="photo-upload">
+    <view class="main-image-container">
+      <image class="animation-image" src="../../images/{{currentFrame === 'memhouse' ? 'memhouse.jpg' : 'frame_' + currentFrame + '.png'}}" />
+      
+      <!-- 悬浮的对话圈圈 -->
+      <view class="floating-button {{analyzing ? 'analyzing' : ''}}" bindtap="chooseImage">
+        <view class="circle-button">
+          <text>{{analyzing ? '分析中...' : '选择照片'}}</text>
+        </view>
+      </view>
+
+      <!-- AI写诗按钮移到底部 -->
+      <view class="ai-poetry-button" wx:if="{{keywords.length > 0}}">
+        <button class="action-btn" bindtap="goToAIPoetry">AI写诗</button>
+      </view>
+    </view>
+
+    <!-- 预览和关键词部分 -->
+    <view class="photo-upload" wx:if="{{tempImagePath || keywords.length > 0}}">
       <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
-      </view>
-      <view class="button-container">
-        <button class="action-btn" bindtap="chooseImage" loading="{{analyzing}}">
-          {{analyzing ? '分析中...' : '选择照片'}}
-        </button>
-        <button class="action-btn" bindtap="goToAIPoetry">AI写诗</button>
       </view>
       <view class="keywords" wx:if="{{keywords.length > 0}}">
         <text class="keyword {{item.selected ? 'selected' : ''}}" 
