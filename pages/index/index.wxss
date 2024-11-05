@@ -67,8 +67,9 @@ page {
   height: 40vh;
   max-width: 600rpx;
   margin: 0 auto;
+  margin-bottom: 100rpx;
   border-radius: 20rpx;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .floating-button {
@@ -80,7 +81,7 @@ page {
 
 .floating-buttons {
   position: absolute;
-  bottom: 30rpx;
+  bottom: -180rpx;
   left: 0;
   right: 0;
   display: flex;
@@ -165,5 +166,5 @@ page {
 
 /* 调整关键词部分布局 */
 .keywords-section {
-  margin-top: 20rpx;
+  margin-top: 60rpx;
 }
