@@ -97,7 +97,7 @@ page {
 
 .floating-buttons {
   position: absolute;
-  top: 40%;
+  top: 5%;
   left: 0;
   width: 100%;
   display: flex;
