@@ -8,7 +8,7 @@ Page({
     tempImagePath: '',
     analyzing: false,
     keywords: [],
-    currentFrame: '0015',
+    currentFrame: 'memhouse',
     isAnimating: false,
     timer: null
   },
@@ -103,7 +103,7 @@ Page({
       }
       this.setData({
         isAnimating: false,
-        currentFrame: '0015'
+        currentFrame: 'memhouse'
       });
     } else {
       // 开始动画
@@ -115,6 +115,7 @@ Page({
 
       this.setData({
         isAnimating: true,
+        currentFrame: '0015',
         timer: timer
       });
     }

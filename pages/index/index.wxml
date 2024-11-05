@@ -1,7 +1,7 @@
 <!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container" bindtap="toggleAnimation">
-    <image class="animation-image" src="../../images/frame_{{currentFrame}}.png" />
+    <image class="animation-image" src="../../images/{{currentFrame === 'memhouse' ? 'memhouse.jpg' : 'frame_' + currentFrame + '.png'}}" />
     <view class="photo-upload">
       <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
