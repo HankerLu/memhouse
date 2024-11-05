@@ -96,8 +96,11 @@ Page({
   },
 
   toggleAnimation: function() {
+    // 暂时注释掉动画逻辑，保持显示 memhouse.jpg
+    return;
+    
+    /* 原有动画代码暂时注释掉
     if (this.data.isAnimating) {
-      // 停止动画
       if (this.data.timer) {
         clearInterval(this.data.timer);
       }
@@ -106,12 +109,11 @@ Page({
         currentFrame: 'memhouse'
       });
     } else {
-      // 开始动画
       const timer = setInterval(() => {
         this.setData({
           currentFrame: this.data.currentFrame === '0015' ? '0049' : '0015'
         });
-      }, 500); // 每500毫秒切换一次图片
+      }, 500);
 
       this.setData({
         isAnimating: true,
@@ -119,6 +121,7 @@ Page({
         timer: timer
       });
     }
+    */
   },
 
   onUnload: function() {
