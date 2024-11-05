@@ -1,9 +1,6 @@
 <!--index.wxml-->
 <scroll-view class="scrollarea" scroll-y type="list">
   <view class="container">
-    <view class="usermotto">
-      <text class="user-motto">{{motto}}</text>
-    </view>
     <view class="photo-upload">
       <view class="image-preview" wx:if="{{tempImagePath}}" bindtap="previewImage">
         <image src="{{tempImagePath}}" mode="aspectFit"></image>
