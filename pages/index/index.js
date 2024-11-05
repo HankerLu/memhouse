@@ -7,7 +7,10 @@ Page({
   data: {
     tempImagePath: '',
     analyzing: false,
-    keywords: []
+    keywords: [],
+    currentFrame: '0015',
+    isAnimating: false,
+    timer: null
   },
 
   chooseImage: async function() {
@@ -90,5 +93,37 @@ Page({
     wx.navigateTo({
       url: '/pages/aipoetry/aipoetry'
     });
+  },
+
+  toggleAnimation: function() {
+    if (this.data.isAnimating) {
+      // 停止动画
+      if (this.data.timer) {
+        clearInterval(this.data.timer);
+      }
+      this.setData({
+        isAnimating: false,
+        currentFrame: '0015'
+      });
+    } else {
+      // 开始动画
+      const timer = setInterval(() => {
+        this.setData({
+          currentFrame: this.data.currentFrame === '0015' ? '0049' : '0015'
+        });
+      }, 500); // 每500毫秒切换一次图片
+
+      this.setData({
+        isAnimating: true,
+        timer: timer
+      });
+    }
+  },
+
+  onUnload: function() {
+    // 页面卸载时清除定时器
+    if (this.data.timer) {
+      clearInterval(this.data.timer);
+    }
   }
 })
