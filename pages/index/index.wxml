@@ -4,16 +4,21 @@
     <view class="main-image-container">
       <image class="animation-image" src="../../images/{{currentFrame === 'memhouse' ? 'memhouse.jpg' : 'frame_' + currentFrame + '.png'}}" />
       
-      <!-- 悬浮的对话圈圈 -->
-      <view class="floating-button {{analyzing ? 'analyzing' : ''}}" bindtap="chooseImage">
-        <view class="circle-button">
-          <text>{{analyzing ? '分析中...' : '选择照片'}}</text>
+      <!-- 两个悬浮的对话圈圈 -->
+      <view class="floating-buttons">
+        <view class="floating-button {{analyzing ? 'analyzing' : ''}}" bindtap="chooseImage">
+          <view class="circle-button">
+            <text>{{analyzing ? '分析中...' : '选择照片'}}</text>
+          </view>
         </view>
-      </view>
 
-      <!-- AI写诗按钮移到底部 -->
-      <view class="ai-poetry-button" wx:if="{{keywords.length > 0}}">
-        <button class="action-btn" bindtap="goToAIPoetry">AI写诗</button>
+        <view class="floating-button poetry-button" 
+              bindtap="goToAIPoetry" 
+              wx:if="{{keywords.length > 0}}">
+          <view class="circle-button">
+            <text>AI写诗</text>
+          </view>
+        </view>
       </view>
     </view>
 

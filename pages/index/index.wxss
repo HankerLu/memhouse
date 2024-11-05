@@ -91,10 +91,18 @@ page {
 }
 
 .floating-button {
+  position: relative;
+  transform: none;
+}
+
+.floating-buttons {
   position: absolute;
   top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 40rpx;
   z-index: 100;
 }
 
@@ -121,31 +129,12 @@ page {
   animation: spin 1s infinite linear;
 }
 
-.photo-upload {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: rgba(255, 255, 255, 0.9);
-  padding: 20rpx;
-  border-top-left-radius: 30rpx;
-  border-top-right-radius: 30rpx;
+.poetry-button .circle-button {
+  background: rgba(7, 193, 96, 0.9);
 }
 
-.ai-poetry-button {
-  position: absolute;
-  bottom: 40rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 100;
-}
-
-.action-btn {
-  background-color: #07c160;
+.poetry-button .circle-button text {
   color: white;
-  border-radius: 30rpx;
-  font-size: 28rpx;
-  padding: 15rpx 40rpx;
 }
 
 @keyframes pulse {
