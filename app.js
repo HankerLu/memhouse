@@ -1,20 +1,38 @@
 // app.js
-App({
-  onLaunch() {
-    // 展示本地存储能力
-    const logs = wx.getStorageSync('logs') || []
-    logs.unshift(Date.now())
-    wx.setStorageSync('logs', logs)
+import { initializeAnimation } from './utils/api-service';
 
-    // 登录
-    wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-      }
-    })
+App({
+  onLaunch: async function() {
+    try {
+      // 初始化动画资源
+      wx.showLoading({
+        title: '正在准备动画资源...',
+        mask: true
+      });
+      
+      const animationPath = await initializeAnimation((progressInfo) => {
+        // 更新加载进度提示
+        wx.showLoading({
+          title: `加载中...${progressInfo.progress}%`,
+        });
+      });
+      
+      // 将动画路径保存到全局数据
+      this.globalData.animationPath = animationPath;
+      
+    } catch (error) {
+      console.error('初始化动画失败:', error);
+      wx.showToast({
+        title: '资源加载失败',
+        icon: 'none',
+        duration: 2000
+      });
+    } finally {
+      wx.hideLoading();
+    }
   },
+
   globalData: {
-    userInfo: null,
-    selectedImage: null
+    animationPath: null
   }
-})
+});

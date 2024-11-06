@@ -20,6 +20,13 @@ Page({
       return `../../images/frame_${String(i + 1).padStart(4, '0')}.png`;
     });
     this.setData({ frames });
+
+    const app = getApp();
+    const animationPath = app.globalData.animationPath;
+    if (animationPath) {
+      // 使用动画文件
+      // ...
+    }
   },
 
   chooseImage: async function() {
