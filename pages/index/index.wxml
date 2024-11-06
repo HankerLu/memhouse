@@ -4,7 +4,13 @@
     <!-- 电视机外壳 -->
     <view class="tv-frame">
       <image class="tv-background" src="../../images/memhouse.jpg" mode="aspectFill" />
-      <!-- 电视屏幕区域，仅在有照片时显示 -->
+      <!-- Canvas 元素 - 移除 wx:if 条件，确保 Canvas 始终存在 -->
+      <canvas 
+        type="2d" 
+        id="animationCanvas"
+        class="animation-canvas"
+      ></canvas>
+      <!-- 电视屏幕区域 -->
       <view class="tv-screen" wx:if="{{tempImagePath}}">
         <image 
           class="screen-content" 
@@ -12,7 +18,6 @@
           mode="aspectFit"
         />
       </view>
-      <!-- 未选择照片时显示的默认黑屏 -->
       <view class="tv-screen tv-screen-empty" wx:else>
       </view>
     </view>

@@ -171,3 +171,12 @@ page {
 .tv-screen-empty {
   background-color: transparent;  /* 改为透明背景 */
 }
+
+.animation-canvas {
+  position: absolute;
+  top: 22%;    /* 与 tv-screen 相同的位置 */
+  left: 23%;   
+  width: 54%;  
+  height: 40%; 
+  z-index: 2;
+}

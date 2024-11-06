@@ -33,6 +33,9 @@ App({
   },
 
   globalData: {
-    animationPath: null
+    animationPath: null,
+    canvasContext: null,
+    canvasWidth: 0,
+    canvasHeight: 0
   }
 });
