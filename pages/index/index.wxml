@@ -9,6 +9,7 @@
         type="2d" 
         id="animationCanvas"
         class="animation-canvas"
+        style="width: 100%; height: 300px;"
       ></canvas>
       <!-- 电视屏幕区域 -->
       <view class="tv-screen" wx:if="{{tempImagePath}}">

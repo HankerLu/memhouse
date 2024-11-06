@@ -1,5 +1,7 @@
 // index.js
 import { analyzeImage } from '../../utils/ai-service';
+import { CharacterController } from '../../utils/character-controller';
+import { AssetsManager } from '../../utils/assets-manager';
 
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 
@@ -10,24 +12,89 @@ Page({
     keywords: [],
     isAnimating: false,
     animationData: {},
-    frames: [], // 存储所有帧的路径
-    currentFrameIndex: 0,
-    showCanvas: false
+    assetsLoaded: false,
+    showCanvas: true
   },
 
-  onLoad() {
-    // 预先生成所有帧的路径
-    const frames = Array.from({length: 60}, (_, i) => {
-      return `../../images/frame_${String(i + 1).padStart(4, '0')}.png`;
-    });
-    this.setData({ frames });
+  async onLoad() {
+    // 初始化资源管理器
+    this.assetsManager = new AssetsManager();
+    
+    // 配置精灵图资源
+    const spriteConfig = {
+      name: 'character',
+      path: '../../images/c1_sprite_sheet.png',
+      width: 1024,  // 根据实际图片调整
+      height: 1024,  // 根据实际图片调整
+      frames: { width: 128, height: 128 }  // 根据实际单帧尺寸调整
+    };
 
-    const app = getApp();
-    const animationPath = app.globalData.animationPath;
-    if (animationPath) {
-      // 使用动画文件
-      // ...
-    }
+    // 加载精灵图资源
+    await this.assetsManager.loadSprites([spriteConfig]);
+
+    // 定义动画序列
+    this.assetsManager.defineAnimation('idle', {
+      spriteName: 'character',
+      frameSequence: [0, 1, 2, 3], // 根据实际帧序列调整
+      frameDuration: 150,
+      loop: true
+    });
+
+    this.initCanvas();
+  },
+
+  initCanvas() {
+    const query = wx.createSelectorQuery();
+    query.select('#animationCanvas')
+      .fields({ node: true, size: true })
+      .exec((res) => {
+        if (!res[0]) {
+          console.error('Canvas element not found');
+          return;
+        }
+
+        const canvas = res[0].node;
+        const ctx = canvas.getContext('2d');
+        
+        // 设置画布尺寸
+        const dpr = wx.getSystemInfoSync().pixelRatio;
+        const { width, height } = res[0];
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.scale(dpr, dpr);
+
+        // 初始化角色控制器
+        this.characterController = new CharacterController(canvas, this.assetsManager);
+        
+        // 开始动画循环
+        this.startAnimationLoop();
+        
+        this.setData({ assetsLoaded: true });
+      });
+  },
+
+  startAnimationLoop() {
+    const animate = () => {
+      if (!this.data.isAnimating) {
+        return;
+      }
+
+      // 更新和绘制角色
+      this.characterController.update(16); // 假设 60fps，约16ms每帧
+      this.characterController.draw();
+
+      // 继续下一帧
+      setTimeout(() => {
+        if (this.data.isAnimating) {
+          animate();
+        }
+      }, 1000 / 60);
+    };
+
+    // 开始动画
+    this.setData({ isAnimating: true }, () => {
+      animate();
+    });
   },
 
   chooseImage: async function() {
