@@ -3,23 +3,12 @@
   <view class="main-image-container">
     <!-- 电视机外壳 -->
     <view class="tv-frame">
-      <image class="tv-background" src="../../images/memhouse.jpg" mode="aspectFill" />
       <!-- Canvas 元素 - 移除 wx:if 条件，确保 Canvas 始终存在 -->
       <canvas 
         type="2d" 
         id="animationCanvas"
         class="animation-canvas"
       ></canvas>
-      <!-- 电视屏幕区域 -->
-      <view class="tv-screen" wx:if="{{tempImagePath}}">
-        <image 
-          class="screen-content" 
-          src="{{tempImagePath}}" 
-          mode="aspectFit"
-        />
-      </view>
-      <view class="tv-screen tv-screen-empty" wx:else>
-      </view>
     </view>
     
     <!-- 两个悬浮的对话圈圈 -->
