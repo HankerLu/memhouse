@@ -1,6 +1,7 @@
 // index.js
 import { AssetsManager, CharacterController } from '../../utils/animation-manager';
 import { analyzeImage } from '../../utils/ai-service';
+import { initializeImages } from '../../utils/api-service';
 
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
 
@@ -9,10 +10,29 @@ Page({
     tempImagePath: '',
     keywords: [],
     analyzing: false,
-    assetsLoaded: false
+    assetsLoaded: false,
+    downloadProgress: 0,
+    currentFile: ''
   },
 
   async onLoad() {
+    try {
+      await initializeImages((progress) => {
+        this.setData({
+          downloadProgress: Math.floor((progress.current / progress.total) * 100),
+          currentFile: progress.filename
+        });
+      });
+      
+      console.log('图片资源初始化完成');
+    } catch (error) {
+      console.error('图片资源初始化失败:', error);
+      wx.showToast({
+        title: '资源加载失败',
+        icon: 'none'
+      });
+    }
+
     // 初始化画布
     const query = wx.createSelectorQuery()
     query.select('#animationCanvas')

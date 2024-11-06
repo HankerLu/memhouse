@@ -45,4 +45,9 @@
       </text>
     </view>
   </view>
+
+  <view class="download-progress" wx:if="{{downloadProgress < 100}}">
+    <text>正在下载资源: {{currentFile}}</text>
+    <progress percent="{{downloadProgress}}" show-info="true" />
+  </view>
   </view>

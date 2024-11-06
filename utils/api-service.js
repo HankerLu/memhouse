@@ -1,105 +1,104 @@
-const BASE_URL = 'http://192.168.200.173:8000'; // 替换为你的实际域名
+const BASE_URL = 'http://192.168.200.173:8000';
 const MAX_RETRIES = 3;
 
-// 下载动画文件
-export const downloadAnimation = () => {
-  return new Promise((resolve, reject) => {
-    const downloadTask = wx.downloadFile({
-      url: `${BASE_URL}/api/animation`,
-      success: (res) => {
-        if (res.statusCode === 200) {
-          // 保存到本地
-          wx.saveFile({
-            tempFilePath: res.tempFilePath,
-            success: (saveRes) => {
-              wx.setStorageSync('animationPath', saveRes.savedFilePath);
-              resolve(saveRes.savedFilePath);
-            },
-            fail: reject
-          });
-        } else {
-          reject(new Error('下载动画文件失败'));
-        }
-      },
-      fail: reject
-    });
-  });
-};
-
-// 检查本地是否已有动画文件
-export const checkLocalAnimation = () => {
-  const savedPath = wx.getStorageSync('animationPath');
-  if (!savedPath) return null;
-  
-  try {
-    const fs = wx.getFileSystemManager();
-    fs.accessSync(savedPath);
-    return savedPath;
-  } catch (e) {
-    wx.removeStorageSync('animationPath');
-    return null;
-  }
-};
-
-// 添加初始化函数
-export const initializeAnimation = async (onProgress) => {
-  // 先检查本地是否存在
-  const localPath = checkLocalAnimation();
-  if (localPath) {
-    console.log('找到本地动画文件:', localPath);
-    return localPath;
-  }
-
-  // 本地不存在，尝试下载
-  let retries = 0;
-  while (retries < MAX_RETRIES) {
+// 修改获取图片列表的函数，添加重试机制
+export const getImages = async (retries = 3) => {
+  for (let i = 0; i < retries; i++) {
     try {
-      const filePath = await downloadAnimationWithProgress(onProgress);
-      console.log('动画文件下载成功:', filePath);
-      return filePath;
+      const result = await new Promise((resolve, reject) => {
+        wx.request({
+          url: `${BASE_URL}/api/images`,
+          method: 'GET',
+          success: (res) => {
+            if (res.statusCode === 200) {
+              const images = res.data.images.map(img => ({
+                ...img,
+                url: `${BASE_URL}${img.url}`
+              }));
+              resolve(images);
+            } else {
+              reject(new Error(`获取图片列表失败: ${res.statusCode}`));
+            }
+          },
+          fail: reject
+        });
+      });
+      return result;
     } catch (error) {
-      retries++;
-      console.log(`第${retries}次下载失败:`, error.message);
-      if (retries === MAX_RETRIES) {
-        throw new Error(`下载失败，已重试${MAX_RETRIES}次: ${error.message}`);
-      }
-      // 等待一秒后重试
+      console.error(`第${i + 1}次获取图片列表失败:`, error);
+      if (i === retries - 1) throw error;
+      // 等待1秒后重试
       await new Promise(resolve => setTimeout(resolve, 1000));
     }
   }
 };
 
-// 添加带进度的下载函数
-export const downloadAnimationWithProgress = (onProgress) => {
+// 添加下载单个图片的函数
+export const downloadImage = (imageUrl) => {
   return new Promise((resolve, reject) => {
-    const downloadTask = wx.downloadFile({
-      url: `${BASE_URL}/api/animation`,
+    wx.downloadFile({
+      url: imageUrl,
       success: (res) => {
         if (res.statusCode === 200) {
-          wx.saveFile({
-            tempFilePath: res.tempFilePath,
-            success: (saveRes) => {
-              wx.setStorageSync('animationPath', saveRes.savedFilePath);
-              resolve(saveRes.savedFilePath);
-            },
-            fail: reject
-          });
+          resolve(res.tempFilePath);
         } else {
-          reject(new Error('下载动画文件失败'));
+          reject(new Error('下载图片失败'));
         }
       },
       fail: reject
     });
-
-    // 添加下载进度监听
-    if (onProgress) {
-      downloadTask.onProgressUpdate((res) => {
-        onProgress({
-          progress: res.progress,
-          totalBytesWritten: res.totalBytesWritten,
-          totalBytesExpectedToWrite: res.totalBytesExpectedToWrite
-        });
-      });
-    }
   });
-}; 
+};
+
+// 添加批量下载图片的函数
+export const downloadImages = async (images, onProgress) => {
+  const total = images.length;
+  const results = [];
+  
+  for (let i = 0; i < total; i++) {
+    try {
+      const tempPath = await downloadImage(images[i].url);
+      results.push({
+        filename: images[i].filename,
+        path: tempPath
+      });
+      
+      if (onProgress) {
+        onProgress({
+          current: i + 1,
+          total,
+          filename: images[i].filename
+        });
+      }
+    } catch (error) {
+      console.error(`下载图片 ${images[i].filename} 失败:`, error);
+      // 继续下载其他图片
+    }
+  }
+  
+  return results;
+};
+
+// 修改图片资源初始化函数，添加更好的错误处理
+export const initializeImages = async (onProgress) => {
+  try {
+    // 获取图片列表
+    const images = await getImages();
+    console.log('获取到图片列表:', images);
+    
+    if (!images || images.length === 0) {
+      console.log('没有找到可用的图片资源');
+      return [];
+    }
+    
+    // 下载所有图片
+    const downloadedImages = await downloadImages(images, onProgress);
+    console.log('图片下载完成:', downloadedImages);
+    
+    return downloadedImages;
+  } catch (error) {
+    console.error('初始化图片资源失败:', error);
+    // 返回空数组而不是抛出错误，这样程序可以继续运行
+    return [];
+  }
+};
