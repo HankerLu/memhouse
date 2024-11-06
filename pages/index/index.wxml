@@ -1,56 +1,54 @@
 <!--index.wxml-->
-<scroll-view class="scrollarea" scroll-y type="list">
-  <view class="container">
-    <view class="main-image-container">
-      <!-- 电视机外壳 -->
-      <view class="tv-frame">
-        <image class="tv-background" src="../../images/memhouse.jpg" mode="aspectFill" />
-        <!-- 电视屏幕区域，仅在有照片时显示 -->
-        <view class="tv-screen" wx:if="{{tempImagePath}}">
-          <image 
-            class="screen-content" 
-            src="{{tempImagePath}}" 
-            mode="aspectFit"
-          />
-        </view>
-        <!-- 未选择照片时显示的默认黑屏 -->
-        <view class="tv-screen tv-screen-empty" wx:else>
-        </view>
+<view class="container">
+  <view class="main-image-container">
+    <!-- 电视机外壳 -->
+    <view class="tv-frame">
+      <image class="tv-background" src="../../images/memhouse.jpg" mode="aspectFill" />
+      <!-- 电视屏幕区域，仅在有照片时显示 -->
+      <view class="tv-screen" wx:if="{{tempImagePath}}">
+        <image 
+          class="screen-content" 
+          src="{{tempImagePath}}" 
+          mode="aspectFit"
+        />
       </view>
-      
-      <!-- 两个悬浮的对话圈圈 -->
-      <view class="floating-buttons">
-        <view class="floating-button {{analyzing ? 'analyzing' : ''}}" 
-              bindtap="chooseImage" 
-              catch:tap="chooseImage">
-          <view class="circle-button">
-            <text>{{analyzing ? '分析中...' : '选择照片'}}</text>
-          </view>
-        </view>
-
-        <!-- 仅在有关键词时显示AI写诗按钮 -->
-        <view class="floating-button poetry-button" 
-              bindtap="goToAIPoetry" 
-              catch:tap="goToAIPoetry"
-              wx:if="{{keywords.length > 0}}">
-          <view class="circle-button">
-            <text>AI写诗</text>
-          </view>
-        </view>
+      <!-- 未选择照片时显示的默认黑屏 -->
+      <view class="tv-screen tv-screen-empty" wx:else>
       </view>
     </view>
+    
+    <!-- 两个悬浮的对话圈圈 -->
+    <view class="floating-buttons">
+      <view class="floating-button {{analyzing ? 'analyzing' : ''}}" 
+            bindtap="chooseImage" 
+            catch:tap="chooseImage">
+        <view class="circle-button">
+          <text>{{analyzing ? '分析中...' : '选择照片'}}</text>
+        </view>
+      </view>
 
-    <!-- 仅在有关键词时显示关键词部分 -->
-    <view class="keywords-section" wx:if="{{keywords.length > 0}}">
-      <view class="keywords">
-        <text class="keyword {{item.selected ? 'selected' : ''}}" 
-              wx:for="{{keywords}}" 
-              wx:key="index"
-              bindtap="toggleKeyword"
-              data-index="{{index}}">
-          {{item.text}}
-        </text>
+      <!-- 仅在有关键词时显示AI写诗按钮 -->
+      <view class="floating-button poetry-button" 
+            bindtap="goToAIPoetry" 
+            catch:tap="goToAIPoetry"
+            wx:if="{{keywords.length > 0}}">
+        <view class="circle-button">
+          <text>AI写诗</text>
+        </view>
       </view>
     </view>
   </view>
-</scroll-view>
+
+  <!-- 仅在有关键词时显示关键词部分 -->
+  <view class="keywords-section" wx:if="{{keywords.length > 0}}">
+    <view class="keywords">
+      <text class="keyword {{item.selected ? 'selected' : ''}}" 
+            wx:for="{{keywords}}" 
+            wx:key="index"
+            bindtap="toggleKeyword"
+            data-index="{{index}}">
+        {{item.text}}
+      </text>
+    </view>
+  </view>
+  </view>
