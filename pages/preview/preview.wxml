@@ -1,9 +1,2 @@
-<view class="preview-container" bindtap="hideImage">
-  <image 
-    src="{{imagePath}}" 
-    mode="aspectFit" 
-    class="preview-image"
-    catch:tap="preventDefault"
-  ></image>
-  <view class="close-btn" catch:tap="hideImage">×</view>
-</view> 
+<!--pages/preview/preview.wxml-->
+<text>pages/preview/preview.wxml</text>

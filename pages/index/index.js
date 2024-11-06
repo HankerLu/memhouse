@@ -89,12 +89,6 @@ Page({
       .map(k => k.text);
   },
 
-  previewImage: function() {
-    wx.navigateTo({
-      url: '/pages/preview/preview'
-    });
-  },
-
   goToAIPoetry() {
     // 检查是否有选中的关键词
     const selectedKeywords = this.data.keywords.filter(k => k.selected);
