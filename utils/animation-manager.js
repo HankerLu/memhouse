@@ -63,17 +63,53 @@ export class CharacterController {
     this.canvas = canvas
     this.assetsManager = assetsManager
     this.ctx = canvas.getContext('2d')
-    this.state = 'idle'
+    this.state = 'talking'
     this.position = { x: 150, y: 200 }
     this.scale = 1
     this.lastUpdate = Date.now()
+
+    // 添加状态机
+    this.stateMachine = new StateMachine();
+    this.setupStates();
   }
 
-  setState(newState) {
-    if (this.state !== newState) {
-      this.state = newState
-      this.assetsManager.frameIndex = 0
-      this.assetsManager.frameTimer = 0
+  setupStates() {
+    // 添加基础状态
+    this.stateMachine.addState('idle', {
+      animationName: 'idle',
+      onEnter: () => {
+        this.playAnimation('idle');
+      }
+    });
+
+    // 添加其他状态
+    this.stateMachine.addState('talking', {
+      animationName: 'talking',
+      onEnter: () => {
+        this.playAnimation('talking');
+      }
+    });
+
+    // 添加状态转换
+    this.stateMachine.addTransition('idle', 'talking');
+    this.stateMachine.addTransition('talking', 'idle');
+  }
+
+  setState(stateName) {
+    if (this.stateMachine.setState(stateName)) {
+      const state = this.stateMachine.getCurrentState();
+      if (state.onEnter) {
+        state.onEnter();
+      }
+    }
+  }
+
+  playAnimation(animationName) {
+    // 播放指定的动画
+    if (this.assetsManager.hasAnimation(animationName)) {
+      this.currentAnimation = this.assetsManager.getAnimation(animationName);
+      this.currentFrame = 0;
+      this.frameTime = 0;
     }
   }
 
@@ -134,5 +170,44 @@ export class CharacterController {
     )
     
     this.ctx.restore()
+  }
+}
+
+export class StateMachine {
+  constructor(initialState = 'idle') {
+    this.currentState = initialState;
+    this.states = new Map();
+    this.transitions = new Map();
+  }
+
+  addState(name, config) {
+    this.states.set(name, config);
+  }
+
+  addTransition(fromState, toState, condition = () => true) {
+    if (!this.transitions.has(fromState)) {
+      this.transitions.set(fromState, new Map());
+    }
+    this.transitions.get(fromState).set(toState, condition);
+  }
+
+  canTransition(fromState, toState) {
+    return this.transitions.get(fromState)?.has(toState) || false;
+  }
+
+  setState(newState) {
+    if (this.states.has(newState) && 
+        (this.canTransition(this.currentState, newState) || newState === this.currentState)) {
+      const condition = this.transitions.get(this.currentState)?.get(newState);
+      if (condition && condition()) {
+        this.currentState = newState;
+        return true;
+      }
+    }
+    return false;
+  }
+
+  getCurrentState() {
+    return this.states.get(this.currentState);
   }
 } 
