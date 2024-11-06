@@ -93,7 +93,7 @@ export const initializeImages = async (onProgress) => {
     
     // 下载所有图片
     const downloadedImages = await downloadImages(images, onProgress);
-    console.log('图片下载完成:', downloadedImages);
+    console.log('图片下载完成，文件存放路径:', downloadedImages.map(img => img.path));
     
     return downloadedImages;
   } catch (error) {

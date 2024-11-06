@@ -17,14 +17,81 @@ Page({
 
   async onLoad() {
     try {
-      await initializeImages((progress) => {
+      // 下载并获取图片路径
+      const downloadedImages = await initializeImages((progress) => {
         this.setData({
           downloadProgress: Math.floor((progress.current / progress.total) * 100),
           currentFile: progress.filename
         });
       });
       
-      console.log('图片资源初始化完成');
+      console.log('图片资源初始化完成，下载路径:', downloadedImages);
+
+      // 初始化画布
+      const query = wx.createSelectorQuery()
+      query.select('#animationCanvas')
+        .fields({ node: true, size: true })
+        .exec(async (res) => {
+          const canvas = res[0].node
+          canvas.width = 660
+          canvas.height = 793
+          
+          this.assetsManager = new AssetsManager(canvas)
+          
+          // 根据下载的图片路径配置精灵图
+          const spriteConfigs = [
+            {
+              name: 'character',
+              path: downloadedImages.find(img => img.filename === 'extracted_sprite_sheet.png')?.path,
+              width: 5280,
+              height: 6344,
+              frames: { width: 660, height: 793 }
+            }, 
+            {
+              name: 'character_talking',
+              path: downloadedImages.find(img => img.filename === '1_141f_720×944_spritesheet.png')?.path,
+              width: 5760,
+              height: 16992,
+              frames: { width: 720, height: 944 }
+            },
+          ]
+
+          console.log('准备加载精灵图，使用下载后的路径:', spriteConfigs.map(config => config.path))
+          
+          // 验证所有路径都存在
+          if (spriteConfigs.some(config => !config.path)) {
+            throw new Error('某些精灵图资源未能成功下载')
+          }
+
+          await this.assetsManager.loadSprites(spriteConfigs)
+          console.log('精灵图加载完成')
+
+          // 定义动画序列
+          this.assetsManager.defineAnimation('idle', {
+            spriteName: 'character',
+            frameSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45], // 45帧动画
+            frameDuration: 50, // 每帧持续时间(毫秒)
+            loop: true
+          })
+
+          this.assetsManager.defineAnimation('talking', {
+            spriteName: 'character_talking',
+            frameSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140],  // 141帧动画
+            frameDuration: 30,
+            loop: true
+          })
+          
+          this.characterController = new CharacterController(canvas, this.assetsManager)
+          this.characterController.position = { 
+            x: canvas.width / 2,  // 居中显示
+            y: canvas.height / 2
+          }
+          this.characterController.scale = 0.5 // 调整缩放比例，根据需要调整
+          
+          // 开始动画循环
+          this.startAnimationLoop(canvas)
+          this.setData({ assetsLoaded: true })
+        })
     } catch (error) {
       console.error('图片资源初始化失败:', error);
       wx.showToast({
@@ -32,66 +99,6 @@ Page({
         icon: 'none'
       });
     }
-
-    // 初始化画布
-    const query = wx.createSelectorQuery()
-    query.select('#animationCanvas')
-      .fields({ node: true, size: true })
-      .exec(async (res) => {
-        const canvas = res[0].node
-        canvas.width = 660  // 匹配单帧宽度
-        canvas.height = 793 // 匹配单帧高度
-        
-        // 初始化资源管理器，传入 canvas
-        this.assetsManager = new AssetsManager(canvas)
-        
-        // 配置精灵图资源
-        const spriteConfigs = [
-        {
-          name: 'character',
-          path: '../../images/extracted_sprite_sheet.png',
-          width: 5280,  // 精灵图总宽度 (720 * 8)
-          height: 6344, // 精灵图总高度
-          frames: { width: 660, height: 793 } // 单帧尺寸
-        }, 
-        {
-          name: 'character_talking',  // 添加说话状态的精灵图
-          path: '../../images/1_141f_720×944_spritesheet.png',  // 假设有这个资源
-          width: 5760,
-          height: 16992,
-          frames: { width: 720, height: 944 }
-        },
-        ]
-
-        // 加载精灵图资源
-        await this.assetsManager.loadSprites(spriteConfigs)
-
-        // 定义动画序列
-        this.assetsManager.defineAnimation('idle', {
-          spriteName: 'character',
-          frameSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45], // 45帧动画
-          frameDuration: 50, // 每帧持续时间(毫秒)
-          loop: true
-        })
-
-        this.assetsManager.defineAnimation('talking', {
-          spriteName: 'character_talking',
-          frameSequence: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140],  // 141帧动画
-          frameDuration: 30,
-          loop: true
-        })
-        
-        this.characterController = new CharacterController(canvas, this.assetsManager)
-        this.characterController.position = { 
-          x: canvas.width / 2,  // 居中显示
-          y: canvas.height / 2
-        }
-        this.characterController.scale = 0.5 // 调整缩放比例，根据需要调整
-        
-        // 开始动画循环
-        this.startAnimationLoop(canvas)
-        this.setData({ assetsLoaded: true })
-      })
   },
 
   startAnimationLoop(canvas) {
