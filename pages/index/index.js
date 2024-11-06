@@ -19,8 +19,8 @@ Page({
       .fields({ node: true, size: true })
       .exec(async (res) => {
         const canvas = res[0].node
-        canvas.width = 720  // 匹配单帧宽度
-        canvas.height = 944 // 匹配单帧高度
+        canvas.width = 660  // 匹配单帧宽度
+        canvas.height = 793 // 匹配单帧高度
         
         // 初始化资源管理器，传入 canvas
         this.assetsManager = new AssetsManager(canvas)
@@ -28,10 +28,10 @@ Page({
         // 配置精灵图资源
         const spriteConfigs = [{
           name: 'character',
-          path: '../../images/c1_sprite_sheet.png',
-          width: 5760,  // 精灵图总宽度 (720 * 8)
-          height: 7552, // 精灵图总高度
-          frames: { width: 720, height: 944 } // 单帧尺寸
+          path: '../../images/extracted_sprite_sheet.png',
+          width: 5280,  // 精灵图总宽度 (720 * 8)
+          height: 6344, // 精灵图总高度
+          frames: { width: 660, height: 793 } // 单帧尺寸
         }]
 
         // 加载精灵图资源
