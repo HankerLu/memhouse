@@ -135,7 +135,10 @@ page {
 .tv-frame {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .tv-background {
@@ -174,9 +177,10 @@ page {
 
 .animation-canvas {
   position: absolute;
-  top: 22%;    /* 与 tv-screen 相同的位置 */
-  left: 23%;   
-  width: 54%;  
-  height: 40%; 
+  width: 360px;
+  height: 472px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
   z-index: 2;
 }
