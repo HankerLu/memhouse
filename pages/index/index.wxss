@@ -146,12 +146,10 @@ page {
 
 .tv-screen {
   position: absolute;
-  /* 根据你的电视机图片调整这些值 */
-  top: 22%;    /* 调整屏幕区域的上边距 */
-  left: 23%;   /* 调整屏幕区域的左边距 */
-  width: 54%;  /* 调整屏幕区域的宽度 */
-  height: 40%; /* 调整屏幕区域的高度 */
-  background: #000;
+  top: 22%;    
+  left: 23%;   
+  width: 54%;  
+  height: 40%; 
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -167,4 +165,9 @@ page {
 /* 调整关键词部分布局 */
 .keywords-section {
   margin-top: 60rpx;
+}
+
+/* 修改空屏幕样式 */
+.tv-screen-empty {
+  background-color: transparent;  /* 改为透明背景 */
 }

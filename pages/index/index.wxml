@@ -5,13 +5,16 @@
       <!-- 电视机外壳 -->
       <view class="tv-frame">
         <image class="tv-background" src="../../images/memhouse.jpg" mode="aspectFill" />
-        <!-- 电视屏幕区域 -->
-        <view class="tv-screen">
+        <!-- 电视屏幕区域，仅在有照片时显示 -->
+        <view class="tv-screen" wx:if="{{tempImagePath}}">
           <image 
             class="screen-content" 
-            src="{{tempImagePath || '../../images/default-screen.jpg'}}" 
+            src="{{tempImagePath}}" 
             mode="aspectFit"
           />
+        </view>
+        <!-- 未选择照片时显示的默认黑屏 -->
+        <view class="tv-screen tv-screen-empty" wx:else>
         </view>
       </view>
       
@@ -25,6 +28,7 @@
           </view>
         </view>
 
+        <!-- 仅在有关键词时显示AI写诗按钮 -->
         <view class="floating-button poetry-button" 
               bindtap="goToAIPoetry" 
               catch:tap="goToAIPoetry"
@@ -36,7 +40,7 @@
       </view>
     </view>
 
-    <!-- 关键词部分 -->
+    <!-- 仅在有关键词时显示关键词部分 -->
     <view class="keywords-section" wx:if="{{keywords.length > 0}}">
       <view class="keywords">
         <text class="keyword {{item.selected ? 'selected' : ''}}" 
