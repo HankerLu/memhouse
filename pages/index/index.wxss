@@ -132,15 +132,6 @@ page {
   object-fit: cover;
 }
 
-.tv-frame {
-  position: relative;
-  width: 100%;
-  height: 500px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .tv-background {
   width: 100%;
   height: 100%;
@@ -181,6 +172,6 @@ page {
   height: 472px;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -30%);
   z-index: 2;
 }

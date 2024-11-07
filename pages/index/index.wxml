@@ -1,16 +1,7 @@
 <!--index.wxml-->
 <view class="container">
   <view class="main-image-container">
-    <!-- 电视机外壳 -->
-    <view class="tv-frame">
-      <!-- Canvas 元素 - 移除 wx:if 条件，确保 Canvas 始终存在 -->
-      <canvas 
-        type="2d" 
-        id="animationCanvas"
-        class="animation-canvas"
-      ></canvas>
-    </view>
-    
+
     <!-- 两个悬浮的对话圈圈 -->
     <view class="floating-buttons">
       <view class="floating-button {{analyzing ? 'analyzing' : ''}}" 
@@ -31,6 +22,13 @@
         </view>
       </view>
     </view>
+
+    <!-- Canvas 元素 - 移除 wx:if 条件，确保 Canvas 始终存在 -->
+    <canvas 
+      type="2d" 
+      id="animationCanvas"
+      class="animation-canvas"
+    ></canvas>
   </view>
 
   <!-- 仅在有关键词时显示关键词部分 -->
