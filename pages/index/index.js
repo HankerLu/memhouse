@@ -177,6 +177,7 @@ Page({
 
       // this.changeCharacterState('shy')
       this.updateDialog('好的，请稍等')
+      this.characterController.setTransform({ x: 100, y: 650 }, 0.3);
       // console.log('切换到害羞状态')
       // this.startAnimationLoop(canvas)
 

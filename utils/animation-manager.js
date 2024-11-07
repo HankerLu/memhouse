@@ -75,8 +75,30 @@ export class CharacterController {
     this.position = { x: 150, y: 200 }
     this.scale = 1
     this.lastUpdate = Date.now()
+    this.defaultPosition = { x: 150, y: 200 }
+    this.defaultScale = 1
+    this.minimizedPosition = { x: 50, y: 50 }
+    this.minimizedScale = 0.5
   }
 
+  minimize() {
+    this.position = { ...this.minimizedPosition }
+    this.scale = this.minimizedScale
+  }
+
+  restore() {
+    this.position = { ...this.defaultPosition }
+    this.scale = this.defaultScale
+  }
+
+  setTransform(position, scale) {
+    if (position) {
+      this.position = { ...position }
+    }
+    if (scale !== undefined) {
+      this.scale = scale
+    }
+  }
 
   playAnimation(animationName) {
     // 播放指定的动画
