@@ -15,6 +15,8 @@ Page({
     currentFile: '',
     dialogText: '主人你好，让我为你的照片题一首诗吧！', // 默认对话内容
     poem: null, // 用于存储生成的诗歌
+    canvasWidth: 360, // 默认宽度
+    canvasHeight: 472, // 默认高度
   },
 
   async onLoad() {
@@ -275,5 +277,28 @@ Page({
       this.updateDialog('抱歉，我现在灵感不太好...');
       this.changeCharacterState('idle');
     }
+  },
+
+  // 添加设置 canvas 尺寸的方法
+  setCanvasSize: function(width, height) {
+    this.setData({
+      canvasWidth: width,
+      canvasHeight: height
+    }, () => {
+      // 重新获取 canvas 上下文并更新实际尺寸
+      const query = wx.createSelectorQuery();
+      query.select('#animationCanvas')
+        .fields({ node: true, size: true })
+        .exec((res) => {
+          const canvas = res[0].node;
+          // 设置 canvas 实际尺寸
+          canvas.width = width;
+          canvas.height = height;
+          
+          // 如果你之前保存了 canvas 上下文，需要重新获取
+          const ctx = canvas.getContext('2d');
+          // 在这里可以重新绘制 canvas 内容
+        });
+    });
   },
 })

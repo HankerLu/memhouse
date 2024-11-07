@@ -19,6 +19,7 @@
       type="2d" 
       id="animationCanvas"
       class="animation-canvas"
+      style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
     ></canvas>
 
     <!-- 在 animation-canvas 元素上方添加 -->
