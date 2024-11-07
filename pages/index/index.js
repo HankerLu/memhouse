@@ -172,7 +172,8 @@ Page({
         keywords: []
       });
 
-      this.changeCharacterState('shy')
+      // this.changeCharacterState('shy')
+      this.updateDialog('好的，请稍等')
       // console.log('切换到害羞状态')
       // this.startAnimationLoop(canvas)
 
@@ -189,6 +190,7 @@ Page({
         keywords: keywords,
         analyzing: false
       });
+      this.updateDialog('这是从图片中提取的关键词，主人选择一些吧')
 
       // 保存图片到全局数据
       const app = getApp();
