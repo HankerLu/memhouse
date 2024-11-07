@@ -55,6 +55,14 @@ export class AssetsManager {
       loop: config.loop ?? true
     })
   }
+
+  hasAnimation(animationName) {
+    return this.animations.has(animationName)
+  }
+
+  getAnimation(animationName) {
+    return this.animations.get(animationName)
+  }
 }
 
 // 角色控制器
@@ -87,6 +95,13 @@ export class CharacterController {
       animationName: 'talking',
       onEnter: () => {
         this.playAnimation('talking');
+      }
+    });
+
+    this.stateMachine.addState('shy', {
+      animationName: 'shy',
+      onEnter: () => {
+        this.playAnimation('shy');
       }
     });
 

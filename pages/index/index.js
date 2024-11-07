@@ -171,6 +171,10 @@ Page({
         keywords: []
       });
 
+      // this.changeCharacterState('shy')
+      // console.log('切换到害羞状态')
+      // this.startAnimationLoop(canvas)
+
       // 分析图片
       const result = await analyzeImage(tempFilePath);
       
