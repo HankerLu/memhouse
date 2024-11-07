@@ -31,7 +31,7 @@
     ></canvas>
 
     <!-- 在 animation-canvas 元素上方添加 -->
-    <view class="floating-dialog">{{dialogText}}</view>
+    <text class="floating-dialog" decode="{{true}}">{{dialogText}}</text>
   </view>
 
   <!-- 仅在有关键词时显示关键词部分 -->
@@ -49,12 +49,6 @@
     <!-- 添加生成诗歌按钮 -->
     <view class="generate-button" bindtap="generatePoetry">
       生成诗歌
-    </view>
-
-    <!-- 添加诗歌显示区域 -->
-    <view class="poetry-section" wx:if="{{poem}}">
-      <text class="poetry-title">{{poem.title}}</text>
-      <text class="poetry-content">{{poem.content}}</text>
     </view>
   </view>
 

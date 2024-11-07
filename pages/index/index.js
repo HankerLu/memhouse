@@ -252,18 +252,20 @@ Page({
     }
 
     this.updateDialog('让我想想，该怎么写这首诗呢...');
-    // this.changeCharacterState('talking');
     
     try {
       const keywords = selectedKeywords.map(k => k.text);
       const result = await createPoem(keywords);
       
-      this.setData({
-        poem: result.poem || result
-      });
-      
-      this.updateDialog('诗歌创作完成啦！主人觉得怎么样？');
-      this.changeCharacterState('shy');
+      // 处理诗歌内容的换行
+      const formattedPoem = (result.poem || result)
+        .split('。')
+        .filter(line => line.trim())
+        .map(line => line + '。\n')
+        .join('');
+      console.log(formattedPoem);
+      this.updateDialog(formattedPoem);
+      // this.updateDialog("1\r\n2\r\n3\n4\n5\n6\n7\n8\n9\n10");
       
     } catch (error) {
       console.error('AI写诗错误：', error);
