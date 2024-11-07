@@ -12,15 +12,6 @@
         </view>
       </view>
 
-      <!-- 仅在有关键词时显示AI写诗按钮 -->
-      <view class="floating-button poetry-button" 
-            bindtap="goToAIPoetry" 
-            catch:tap="goToAIPoetry"
-            wx:if="{{keywords.length > 0}}">
-        <view class="circle-button">
-          <text>AI写诗</text>
-        </view>
-      </view>
     </view>
 
     <!-- Canvas 元素 - 移除 wx:if 条件，确保 Canvas 始终存在 -->
