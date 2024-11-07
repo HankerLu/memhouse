@@ -203,3 +203,37 @@ page {
   border-style: solid;
   border-color: white transparent transparent transparent;
 }
+
+.generate-button {
+  margin: 20rpx auto;
+  padding: 15rpx 40rpx;
+  background-color: #4CAF50;
+  color: white;
+  border-radius: 30rpx;
+  text-align: center;
+  width: fit-content;
+}
+
+.poetry-section {
+  margin: 30rpx;
+  padding: 20rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.poetry-title {
+  display: block;
+  font-size: 32rpx;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20rpx;
+}
+
+.poetry-content {
+  display: block;
+  font-size: 28rpx;
+  line-height: 1.6;
+  text-align: center;
+  white-space: pre-wrap;
+}

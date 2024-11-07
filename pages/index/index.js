@@ -1,6 +1,6 @@
 // index.js
 import { AssetsManager, CharacterController } from '../../utils/animation-manager';
-import { analyzeImage } from '../../utils/ai-service';
+import { analyzeImage, createPoem } from '../../utils/ai-service';
 import { initializeImages } from '../../utils/api-service';
 
 const defaultAvatarUrl = 'https://mmbiz.qpic.cn/mmbiz/icTdbqWNOwNRna42FI242Lcia07jQodd2FJGIYQfG0LAJGFxM4FbnQP6yfMxBgJ0F3YRqJCJ1aPAK2dQagdusBZg/0'
@@ -13,7 +13,8 @@ Page({
     assetsLoaded: false,
     downloadProgress: 0,
     currentFile: '',
-    dialogText: '主人你好，让我为你的照片题一首诗吧！' // 默认对话内容
+    dialogText: '主人你好，让我为你的照片题一首诗吧！', // 默认对话内容
+    poem: null, // 用于存储生成的诗歌
   },
 
   async onLoad() {
@@ -223,22 +224,6 @@ Page({
       .map(k => k.text);
   },
 
-  goToAIPoetry() {
-    // 检查是否有选中的关键词
-    const selectedKeywords = this.data.keywords.filter(k => k.selected);
-    if (selectedKeywords.length === 0) {
-      wx.showToast({
-        title: '请至少选择一个关键词',
-        icon: 'none'
-      });
-      return;
-    }
-    
-    wx.navigateTo({
-      url: '/pages/aipoetry/aipoetry'
-    });
-  },
-
   // 添加切换状态的方法
   changeCharacterState(state) {
     if (this.characterController) {
@@ -254,5 +239,40 @@ Page({
     this.setData({
       dialogText: text
     });
-  }
+  },
+
+  async generatePoetry() {
+    const selectedKeywords = this.data.keywords.filter(k => k.selected);
+    if (selectedKeywords.length === 0) {
+      wx.showToast({
+        title: '请先选择关键词',
+        icon: 'none'
+      });
+      return;
+    }
+
+    this.updateDialog('让我想想，该怎么写这首诗呢...');
+    // this.changeCharacterState('talking');
+    
+    try {
+      const keywords = selectedKeywords.map(k => k.text);
+      const result = await createPoem(keywords);
+      
+      this.setData({
+        poem: result.poem || result
+      });
+      
+      this.updateDialog('诗歌创作完成啦！主人觉得怎么样？');
+      this.changeCharacterState('shy');
+      
+    } catch (error) {
+      console.error('AI写诗错误：', error);
+      wx.showToast({
+        title: '生成诗歌失败，请稍后重试',
+        icon: 'none'
+      });
+      this.updateDialog('抱歉，我现在灵感不太好...');
+      this.changeCharacterState('idle');
+    }
+  },
 })
