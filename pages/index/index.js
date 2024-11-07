@@ -37,7 +37,6 @@ Page({
           canvas.height = 793
           
           this.assetsManager = new AssetsManager(canvas)
-          
           // 根据下载的图片路径配置精灵图
           const spriteConfigs = [
             {
@@ -49,13 +48,13 @@ Page({
             }, 
             {
               name: 'character_talking',
-              path: downloadedImages.find(img => img.filename === '1_141f_720×944_spritesheet.png')?.path,
-              width: 5760,
-              height: 16992,
-              frames: { width: 720, height: 944 }
+              path: downloadedImages.find(img => img.filename === '1_141f_660x793_spritesheet.png')?.path,
+              width: 5280,
+              height: 14274,
+              frames: { width: 660, height: 793 }
             },
           ]
-
+          
           console.log('准备加载精灵图，使用下载后的路径:', spriteConfigs.map(config => config.path))
           
           // 验证所有路径都存在
@@ -103,8 +102,9 @@ Page({
 
   startAnimationLoop(canvas) {
     const animate = (timestamp) => {
-      const deltaTime = timestamp - (this.lastTimestamp || timestamp)
-      this.lastTimestamp = timestamp
+      const currentTime = Date.now()
+      const deltaTime = currentTime - (this.lastTimestamp || currentTime)
+      this.lastTimestamp = currentTime
 
       // 更新和绘制角色
       this.characterController.update(deltaTime)
@@ -115,6 +115,7 @@ Page({
         this.characterController.canvas.height
       )
       this.characterController.draw()
+      // console.log('Drawing character...');
 
       // 继续动画循环
       if (this.characterController && this.characterController.canvas) {
@@ -122,8 +123,8 @@ Page({
       }
     }
 
-    // 确保初始化时有正确的时间戳
-    this.lastTimestamp = performance.now()
+    // 使用 Date.now() 初始化时间戳
+    this.lastTimestamp = Date.now()
     
     // 使用 canvas 的 requestAnimationFrame
     if (canvas && typeof canvas.requestAnimationFrame === 'function') {
