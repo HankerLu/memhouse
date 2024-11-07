@@ -17,6 +17,7 @@ Page({
     poem: null, // 用于存储生成的诗歌
     canvasWidth: 360, // 默认宽度
     canvasHeight: 472, // 默认高度
+    selectedImage: '', // 添加新的数据属性
   },
 
   async onLoad() {
@@ -169,17 +170,16 @@ Page({
       });
       
       const tempFilePath = res.tempFiles[0].tempFilePath;
+      
+      // 更新图片路径和状态
       this.setData({
         tempImagePath: tempFilePath,
         analyzing: true,
         keywords: []
       });
 
-      // this.changeCharacterState('shy')
       this.updateDialog('好的，请稍等')
       this.characterController.setTransform({ x: 100, y: 650 }, 0.3);
-      // console.log('切换到害羞状态')
-      // this.startAnimationLoop(canvas)
 
       // 分析图片
       const result = await analyzeImage(tempFilePath);
@@ -194,6 +194,7 @@ Page({
         keywords: keywords,
         analyzing: false
       });
+      
       this.updateDialog('这是从图片中提取的关键词，主人选择一些吧')
 
       // 保存图片到全局数据
@@ -302,4 +303,17 @@ Page({
         });
     });
   },
+
+  // 在选择图片的处理函数中添加
+  async handleImageSelected(tempFilePath) {
+    // ... 现有代码
+    this.setData({
+      selectedImage: tempFilePath
+    });
+    
+    // 缩小机器人
+    this.characterController.setTransform({ x: 100, y: 650 }, 0.3);
+    
+    // ... 其他处理代码
+  }
 })

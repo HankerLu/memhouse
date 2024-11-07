@@ -2,7 +2,7 @@
 <view class="container">
   <view class="main-image-container">
 
-    <!-- 两个悬浮的对话圈圈 -->
+    <!-- 悬浮按钮 -->
     <view class="floating-buttons">
       <view class="floating-button {{analyzing ? 'analyzing' : ''}}" 
             bindtap="chooseImage" 
@@ -11,10 +11,9 @@
           <text>{{analyzing ? '分析中...' : '选择照片'}}</text>
         </view>
       </view>
-
     </view>
 
-    <!-- Canvas 元素 - 移除 wx:if 条件，确保 Canvas 始终存在 -->
+    <!-- 只保留一个 Canvas -->
     <canvas 
       type="2d" 
       id="animationCanvas"
@@ -22,7 +21,17 @@
       style="width: {{canvasWidth}}px; height: {{canvasHeight}}px;"
     ></canvas>
 
-    <!-- 在 animation-canvas 元素上方添加 -->
+    <!-- 图片容器 -->
+    <view class="selected-image-container {{tempImagePath ? 'visible' : ''}}">
+      <image 
+        class="selected-image" 
+        mode="aspectFit" 
+        src="{{tempImagePath}}" 
+        wx:if="{{tempImagePath}}"
+      ></image>
+    </view>
+
+    <!-- 对话框 -->
     <text class="floating-dialog" decode="{{true}}">{{dialogText}}</text>
   </view>
 
