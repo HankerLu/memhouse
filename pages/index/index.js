@@ -171,7 +171,7 @@ Page({
         keywords: []
       });
 
-      // this.changeCharacterState('shy')
+      this.changeCharacterState('talking')
       // console.log('切换到害羞状态')
       // this.startAnimationLoop(canvas)
 

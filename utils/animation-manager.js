@@ -75,53 +75,8 @@ export class CharacterController {
     this.position = { x: 150, y: 200 }
     this.scale = 1
     this.lastUpdate = Date.now()
-
-    // 添加状态机
-    this.stateMachine = new StateMachine();
-    this.setupStates();
   }
 
-  setupStates() {
-    // 添加基础状态
-    this.stateMachine.addState('idle', {
-      animationName: 'idle',
-      onEnter: () => {
-        this.playAnimation('idle');
-      }
-    });
-
-    // 添加其他状态
-    this.stateMachine.addState('talking', {
-      animationName: 'talking',
-      onEnter: () => {
-        this.playAnimation('talking');
-      }
-    });
-
-    this.stateMachine.addState('shy', {
-      animationName: 'shy',
-      onEnter: () => {
-        this.playAnimation('shy');
-      }
-    });
-
-    // 添加状态转换
-    this.stateMachine.addTransition('idle', 'talking');
-    this.stateMachine.addTransition('talking', 'idle');
-    this.stateMachine.addTransition('idle', 'shy');
-    this.stateMachine.addTransition('shy', 'idle');
-    this.stateMachine.addTransition('talking', 'shy');
-    this.stateMachine.addTransition('shy', 'talking');
-  }
-
-  setState(stateName) {
-    if (this.stateMachine.setState(stateName)) {
-      const state = this.stateMachine.getCurrentState();
-      if (state.onEnter) {
-        state.onEnter();
-      }
-    }
-  }
 
   playAnimation(animationName) {
     // 播放指定的动画
@@ -160,7 +115,10 @@ export class CharacterController {
       console.error('No animation found for state:', this.state);
       return;
     }
-
+    
+    if (this.assetsManager.frameIndex === 0) {
+      console.log('animation name: ', animation.spriteName)
+    }
     const sprite = this.assetsManager.sprites.get(animation.spriteName)
     if (!sprite) {
       console.error('No sprite found for animation:', animation.spriteName);
@@ -190,43 +148,8 @@ export class CharacterController {
     
     this.ctx.restore()
   }
+
+  setState(state) {
+    this.state = state
+  }
 }
-
-export class StateMachine {
-  constructor(initialState = 'idle') {
-    this.currentState = initialState;
-    this.states = new Map();
-    this.transitions = new Map();
-  }
-
-  addState(name, config) {
-    this.states.set(name, config);
-  }
-
-  addTransition(fromState, toState, condition = () => true) {
-    if (!this.transitions.has(fromState)) {
-      this.transitions.set(fromState, new Map());
-    }
-    this.transitions.get(fromState).set(toState, condition);
-  }
-
-  canTransition(fromState, toState) {
-    return this.transitions.get(fromState)?.has(toState) || false;
-  }
-
-  setState(newState) {
-    if (this.states.has(newState) && 
-        (this.canTransition(this.currentState, newState) || newState === this.currentState)) {
-      const condition = this.transitions.get(this.currentState)?.get(newState);
-      if (condition && condition()) {
-        this.currentState = newState;
-        return true;
-      }
-    }
-    return false;
-  }
-
-  getCurrentState() {
-    return this.states.get(this.currentState);
-  }
-} 
