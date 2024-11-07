@@ -175,3 +175,31 @@ page {
   transform: translate(-50%, -30%);
   z-index: 2;
 }
+
+/* 添加悬浮对话框样式 */
+.floating-dialog {
+  position: absolute;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -150%);
+  background-color: white;
+  padding: 20rpx 30rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  z-index: 3;
+  font-size: 28rpx;
+  color: #333;
+  white-space: nowrap;
+}
+
+/* 添加对话框小三角 */
+.floating-dialog::after {
+  content: '';
+  position: absolute;
+  bottom: -16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 16rpx;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+}

@@ -29,6 +29,9 @@
       id="animationCanvas"
       class="animation-canvas"
     ></canvas>
+
+    <!-- 在 animation-canvas 元素上方添加 -->
+    <view class="floating-dialog">主人你好，让我为你的照片题一首诗吧！</view>
   </view>
 
   <!-- 仅在有关键词时显示关键词部分 -->
