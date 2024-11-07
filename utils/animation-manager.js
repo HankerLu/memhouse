@@ -63,7 +63,7 @@ export class CharacterController {
     this.canvas = canvas
     this.assetsManager = assetsManager
     this.ctx = canvas.getContext('2d')
-    this.state = 'talking'
+    this.state = 'idle'
     this.position = { x: 150, y: 200 }
     this.scale = 1
     this.lastUpdate = Date.now()
@@ -93,6 +93,10 @@ export class CharacterController {
     // 添加状态转换
     this.stateMachine.addTransition('idle', 'talking');
     this.stateMachine.addTransition('talking', 'idle');
+    this.stateMachine.addTransition('idle', 'shy');
+    this.stateMachine.addTransition('shy', 'idle');
+    this.stateMachine.addTransition('talking', 'shy');
+    this.stateMachine.addTransition('shy', 'talking');
   }
 
   setState(stateName) {
