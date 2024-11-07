@@ -1,9 +1,7 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/logs/logs",
-    "pages/preview/preview",
-    "pages/aipoetry/aipoetry"
+    "pages/logs/logs"
   ],
   "window": {
     "backgroundTextStyle": "light",
