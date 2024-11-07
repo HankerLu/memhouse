@@ -265,7 +265,6 @@ Page({
         .join('');
       console.log(formattedPoem);
       this.updateDialog(formattedPoem);
-      // this.updateDialog("1\r\n2\r\n3\n4\n5\n6\n7\n8\n9\n10");
       
     } catch (error) {
       console.error('AI写诗错误：', error);

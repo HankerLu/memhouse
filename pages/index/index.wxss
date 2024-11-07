@@ -176,12 +176,12 @@ page {
   z-index: 2;
 }
 
-/* 添加悬浮对话框样式 */
+/* 修改悬浮对话框样式 */
 .floating-dialog {
   position: absolute;
   left: 50%;
-  top: 40%;
-  transform: translate(-50%, -150%);
+  top: 0rpx;
+  transform: translateX(-50%);
   background-color: white;
   padding: 20rpx 30rpx;
   border-radius: 20rpx;
@@ -189,10 +189,13 @@ page {
   z-index: 3;
   font-size: 28rpx;
   color: #333;
-  white-space: nowrap;
+  white-space: pre-wrap;
+  max-width: 80%;
+  min-width: 200rpx;
+  text-align: center;
 }
 
-/* 添加对话框小三角 */
+/* 更新小三角的样式 */
 .floating-dialog::after {
   content: '';
   position: absolute;
