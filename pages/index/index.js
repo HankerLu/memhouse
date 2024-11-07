@@ -12,7 +12,8 @@ Page({
     analyzing: false,
     assetsLoaded: false,
     downloadProgress: 0,
-    currentFile: ''
+    currentFile: '',
+    dialogText: '主人你好，让我为你的照片题一首诗吧！' // 默认对话内容
   },
 
   async onLoad() {
@@ -171,7 +172,7 @@ Page({
         keywords: []
       });
 
-      this.changeCharacterState('talking')
+      this.changeCharacterState('shy')
       // console.log('切换到害羞状态')
       // this.startAnimationLoop(canvas)
 
@@ -241,5 +242,15 @@ Page({
     if (this.characterController) {
       this.characterController.setState(state);
     }
+  },
+
+  /**
+   * 更新对话框内容
+   * @param {string} text - 新的对话内容
+   */
+  updateDialog(text) {
+    this.setData({
+      dialogText: text
+    });
   }
 })
