@@ -1,5 +1,5 @@
 const BASE_URL = 'http://192.168.200.173:8000';  // 服务器IP
-
+// const BASE_URL = 'http://192.168.201.169:8000';  // 服务器IP
 // 分析图片
 export function analyzeImage(tempFilePath) {
   return new Promise((resolve, reject) => {
